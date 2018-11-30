@@ -1,0 +1,4 @@
+resources:
+  App\Entity\Page:
+    collectionOperations: #collection operations apply to a collection of items
+    itemOperations: #item operations apply to a single item

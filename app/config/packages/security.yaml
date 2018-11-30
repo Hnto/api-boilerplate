@@ -1,0 +1,38 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+    providers:
+        chain_provider:
+            chain:
+                providers: [api_key_provider, api_token_provider]
+        api_key_provider:
+            entity:
+                class: App\Entity\User
+                property: apiKey
+        api_token_provider:
+            entity:
+                class: App\Entity\Token
+                property: value
+        user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+          pattern:  ^/
+          security: false
+        api_resources:
+           #Used for http basic
+#          pattern: /api/\w.
+#          http_basic: ~
+#          provider: user_provider
+#          stateless: true
+          pattern: /api/\w.
+          provider: chain_provider
+          guard:
+            authenticators:
+              - App\Security\ApiKeyAuthenticator
+              - App\Security\TokenAuthenticator
+            entry_point: App\Security\ApiKeyAuthenticator
+          stateless: true

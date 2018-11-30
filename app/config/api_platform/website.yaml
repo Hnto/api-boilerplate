@@ -1,0 +1,17 @@
+resources:
+  App\Entity\Website:
+    collectionOperations: #collection operations apply to a collection of items
+      get: ~
+      post: ~
+    itemOperations: #item operations apply to a single item
+      get: ~
+      put: ~
+      delete: ~
+      addresses:
+        method: 'GET'
+        path: '/websites/{id}/pages.{_format}' #.{_format} is required to output a path with an extension {example: "customers.json"}
+        requirements:
+          id: '\d+'
+        controller: 'App\Controller\WebsiteController::getPages'
+        defaults:
+          _api_receive: false #required to output your own controllers method
